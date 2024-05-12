@@ -1,0 +1,31 @@
+- UI component'i oluşturabilmek için fonksiyonu @Composable notasyonuyla işaretlememiş gerekir. Bu notasyon Compose derleyiciye bu kodların birer UI'a dönüşeceğini söyler.
+
+- Bu composable fonksiyonlar tekrar tekrar kullanılabilir.
+
+- Composable fonksiyonlar immutable'dır. Bunları bir değişkene eşitlik olarak yazmamalıyız.
+
+- Compose'da visible, invisible, gone gibi yapılara ihtiyaç yoktur. Bir composable'ı ya gösteririz ya da göstermeyiz.
+
+- Composable fonksiyonlar her çağrılında aynısı gibi davranmalıdır. propertyleri veya global değişkenleri değiştirmemelidir.
+
+- Composable fonksiyonlarda stateler değiştiği zaman recomposition oluyordu. Bu recomposition olayı için bir değişken tanımlamalıyız. Bu değişkenin değeri değiştiğinde composable fonksiyonların da recompositiona uğrayacağından haberi olmalı. Bunun için değişkeni mutable state içine sarmamız gerekir. Bu, compose run time'da gözlemlenebilir bir tipdir. Ayrıca bu değişkeni remember'a delege ederiz çünkü recomposition olduğu zaman state'inin sıfırlanmamasını garanti etmemiz gerekir. Burada delege ederekte kullanabiliriz veya direkt eşitlik olarakta kullanabiliriz. Aşağıda iki örnekteki fark, by ile kullanımda direkt değişkeni kullanabilirken diğerinde expanded.value diyerek bir kullanım yapıyoruz.
+
+var expanded by remember { mutableStateOf(false) }
+var expanded = remember { mutableStateOf(false) }
+
+- Config ayarları değiştiğinde (ekranı yan çevirme vs.) stateleri kaybetmek istemiyorsak rememberSaveable kullanabiliriz.
+
+Davranışlar:
+
+- Composable fonksiyonlar çağrıldığı sırada çalışmazlar. Bazı UI elementlerine öncelik verilir ve bu yüzden önce onlar çizilir.
+
+- Composable fonksiyonlar paralel olarak çalışabilir. Yani render işlemlerinde birden fazla çekirdek bunları beraber çalıştırabilir. Bu da performans artışı demektir.
+
+- Composable fonksiyonlar side effect free olmalı.
+
+- Recomposition, olabildiğince ilgili yerlerde gerçekleşir. Yani state'i değişmeyen composable'lar recomposition'a uğramıyor.
+
+- Recomposition iyimser bir yaklaşım sergiler. Yani recomposition gerçekleşeceği sırada o an state tekrardan değişirse, çizilecek UI iptal edilir ve yeni state'e, parametreye göre bir recomposition gerçekleşir.
+
+- Composable fonksiyonlar sık sık çalışabilir. Bir composable animasyon içeriyorsa bu durumu önemseyebiliriz çünkü animasyonlarda her bir kare çok önemlidir. Hızlı olması ve framelerin atlanmaması gerekir.
+
