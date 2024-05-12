@@ -1,0 +1,15 @@
+- Compose ile bir şeyin ne olduğunu tanımlarız fakat nasıl olduğunu tanımlamayız.
+
+- XML'de bir view'a Kotlin kodlarıyla ona erişecek kodlar yazarız. (findByViewId viewBinding vs.) Ardından o view'a erişerek set fonksiyonlarıyla beraber güncellemesini yaparız. Compose'da hem UI'ları hem de bunların state'ini Kotlin kodları şeklinde yazarız.
+
+- Compose'da UI elementleri sınıf değildir, birer composable fonksiyonlardır. Bu yüzden referansları yoktur ve direkt bunları değiştirdiğimiz bir set fonksiyonları yoktur. Buradaki stateleri tamamen kendimiz güncelleriz. Örneğin bir radio buton'a tıkladığımızda onun seçili olmasını biz kendimiz kodlardan ayarlarız. Bu XML'de otomatik oluyordu. Tam olarak bu yüzden Compose'da bir UI'ı nedir diye tanımlarız, nasıl diye tanımlamayız. Radio buton'un görünümünü, gerekli stateler ile tanımlıyoruz fakat bu state'i nasıl render edeceğini söylemeyiz.
+
+- Bu satateleri eventler kontrol eder. Örneğin click işlemi gibi.
+
+- Stateler UI'ları kontrol eder. Bir UI elemanının state'i değişirse o UI elemanı yeniden çizdirilir, buna recomposition denir.
+
+Özet:
+- Ne olduğunu tanımlarız nasıl olduğunu tanımlamayız.
+- UI elementler fonksiyondur. Sınıf değildir.
+- Stateler UI'ı kontrol eder.
+- Eventler Stateleri kontrol eder.
