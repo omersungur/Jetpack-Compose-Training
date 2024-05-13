@@ -356,71 +356,137 @@ import com.omersungur.firstcodelab.ui.theme.FirstCodelabTheme
  * composable, tekrar tekrar kullanılabilir hale gelir. Ek olarak test yazma işini de kolaylaştırır.
  */
 
+//class MainActivity : ComponentActivity() {
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setContent {
+//            FirstCodelabTheme {
+//                MyApp(modifier = Modifier.fillMaxSize())
+//            }
+//        }
+//    }
+//}
+//
+///**
+// * Compose'da bir şeyleri gizlemeyiz. Göstereceksek composable'a dahil ederiz, göstermeyeceksek dahil etmeyiz. Bunun için de
+// * Kotlin kodlarında logicler yazabiliriz. If else gibi.
+// *
+// * Burada shouldShowOnboarding true ise başka bir component eğer değilse başka bir component göstereceğiz. Buradaki state
+// * nereden gelmeli? İşte burada state hoisting yaparak bu state'i MyApp'e taşıyoruz. İlk başta true olduğu için
+// * OnBoardingScreen gözükecek fakat sonradan false olacağı için Greetings gözükecek.
+// */
+//@Composable
+//fun MyApp(modifier: Modifier = Modifier) {
+//
+//    var shouldShowOnboarding by remember { mutableStateOf(true) }
+//
+//    Surface(modifier) {
+//        if (shouldShowOnboarding) {
+//            OnboardingScreen(onContinueClicked = { shouldShowOnboarding = false })
+//        } else {
+//            Greetings()
+//        }
+//    }
+//}
+//
+///**
+// * Higher order fonksiyonlar ile bir state durumunu değiştirebiliriz. İşleri çok kolaylaştırır.
+// * Higher order func. <3
+// */
+//@Composable
+//fun OnboardingScreen(
+//    onContinueClicked: () -> Unit,
+//    modifier: Modifier = Modifier
+//) {
+//    Column(
+//        modifier = modifier.fillMaxSize(),
+//        verticalArrangement = Arrangement.Center,
+//        horizontalAlignment = Alignment.CenterHorizontally
+//    ) {
+//        Text("Welcome to the Basics Codelab!")
+//
+//        Button(
+//            modifier = Modifier.padding(vertical = 24.dp),
+//            onClick = onContinueClicked
+//        ) {
+//            Text("Continue")
+//        }
+//    }
+//}
+//
+//@Composable
+//private fun Greetings(
+//    modifier: Modifier = Modifier,
+//    names: List<String> = listOf("World", "Compose")
+//) {
+//    Column(modifier = modifier.padding(vertical = 4.dp)) {
+//        for (name in names) {
+//            Greeting(name = name)
+//        }
+//    }
+//}
+//
+//@Composable
+//fun Greeting(name: String, modifier: Modifier = Modifier) {
+//
+//    var expanded by remember { mutableStateOf(false) }
+//
+//    val extraPadding = if (expanded) 48.dp else 0.dp
+//
+//    Surface(
+//        color = MaterialTheme.colorScheme.primary,
+//        modifier = modifier.padding(vertical = 4.dp, horizontal = 8.dp)
+//    ) {
+//        Row(modifier = Modifier.padding(24.dp)) {
+//            Column(
+//                modifier = Modifier
+//                    .weight(1f)
+//                    .padding(bottom = extraPadding)
+//            ) {
+//                Text(text = "Hello, ")
+//                Text(text = name)
+//            }
+//            ElevatedButton(
+//                onClick = { expanded = !expanded }
+//            ) {
+//                Text(if (expanded) "Show less" else "Show more")
+//            }
+//        }
+//    }
+//}
+
+/**
+ * Chapter - 9 -> Creating a performant lazy list
+ */
+
+/**
+ * Birkaç tane column'a alt alta koymuştuk. Peki ya binlerce varsa? Burada recycler view gibi bir yapıya ihtiyacımız
+ * var. O da LazyColumn veya LazyRow ile sağlanıyor. Recycler view gibi bir yapıdır. Aşağı kaydırdıkça veriler yüklenir.
+ */
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FirstCodelabTheme {
-                MyApp(modifier = Modifier.fillMaxSize())
+                Greetings(modifier = Modifier.fillMaxSize())
             }
         }
     }
 }
 
 /**
- * Compose'da bir şeyleri gizlemeyiz. Göstereceksek composable'a dahil ederiz, göstermeyeceksek dahil etmeyiz. Bunun için de
- * Kotlin kodlarında logicler yazabiliriz. If else gibi.
- *
- * Burada shouldShowOnboarding true ise başka bir component eğer değilse başka bir component göstereceğiz. Buradaki state
- * nereden gelmeli? İşte burada state hoisting yaparak bu state'i MyApp'e taşıyoruz. İlk başta true olduğu için
- * OnBoardingScreen gözükecek fakat sonradan false olacağı için Greetings gözükecek.
+ * LazyColumn, Recycler view gibi childrenlarını yaymaz. Kaydırdıkça yeni composable'ları yayar (emit etmek).
+ * Composable'lar View'lardan daha hafif olduğu için daha performanslıdır diyebiliriz.
  */
-@Composable
-fun MyApp(modifier: Modifier = Modifier) {
-
-    var shouldShowOnboarding by remember { mutableStateOf(true) }
-
-    Surface(modifier) {
-        if (shouldShowOnboarding) {
-            OnboardingScreen(onContinueClicked = { shouldShowOnboarding = false })
-        } else {
-            Greetings()
-        }
-    }
-}
-
-/**
- * Higher order fonksiyonlar ile bir state durumunu değiştirebiliriz. İşleri çok kolaylaştırır.
- * Higher order func. <3
- */
-@Composable
-fun OnboardingScreen(
-    onContinueClicked: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text("Welcome to the Basics Codelab!")
-
-        Button(
-            modifier = Modifier.padding(vertical = 24.dp),
-            onClick = onContinueClicked
-        ) {
-            Text("Continue")
-        }
-    }
-}
 
 @Composable
 private fun Greetings(
     modifier: Modifier = Modifier,
-    names: List<String> = listOf("World", "Compose")
+    names: List<String> = List(1000) { "$it" }
 ) {
-    Column(modifier = modifier.padding(vertical = 4.dp)) {
-        for (name in names) {
+    LazyColumn(modifier = modifier.padding(vertical = 4.dp)) {
+        items(items = names) { name ->
             Greeting(name = name)
         }
     }
