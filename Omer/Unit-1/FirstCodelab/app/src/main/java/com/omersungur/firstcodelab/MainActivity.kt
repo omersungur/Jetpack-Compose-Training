@@ -3,6 +3,9 @@ package com.omersungur.firstcodelab
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -530,5 +534,118 @@ import com.omersungur.firstcodelab.ui.theme.FirstCodelabTheme
  * bir problemimiz var. Eğer uygulama configurasyonu değişirse (ekranı yan çevirmek vs.) bu durumda onBoarding ekranı tekrar
  * gözükecektir. Çünkü state'i kaybettik. Bunun için rememberSaveable kullanabiliriz.
  *
+ * Ek olarak şöyle bir örnekte, 1. butona bastık o column aşağı indi ve biz ekranı biraz aşağı kaydırdık. Sonra geri geldik diyelim. Bu durumda da state
+ * sıfırlanır. Bunun için de yine rememberSaveable kullanabiliriz.
+ *
  * var shouldShowOnboarding by rememberSaveable { mutableStateOf(true) }
  */
+
+/**
+ * Chapter - 11 -> Animating your list
+ */
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            FirstCodelabTheme {
+                MyApp(modifier = Modifier.fillMaxSize())
+            }
+        }
+    }
+}
+
+@Composable
+fun MyApp(modifier: Modifier = Modifier) {
+
+    var shouldShowOnboarding by rememberSaveable { mutableStateOf(true) }
+
+    Surface(modifier) {
+        if (shouldShowOnboarding) {
+            OnboardingScreen(onContinueClicked = { shouldShowOnboarding = false })
+        } else {
+            Greetings()
+        }
+    }
+}
+
+@Composable
+fun OnboardingScreen(
+    onContinueClicked: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text("Welcome to the Basics Codelab!")
+        Button(
+            modifier = Modifier.padding(vertical = 24.dp),
+            onClick = onContinueClicked
+        ) {
+            Text("Continue")
+        }
+    }
+
+}
+
+@Composable
+private fun Greetings(
+    modifier: Modifier = Modifier,
+    names: List<String> = List(1000) { "$it" }
+) {
+    LazyColumn(modifier = modifier.padding(vertical = 4.dp)) {
+        items(items = names) { name ->
+            Greeting(name = name)
+        }
+    }
+}
+
+/**
+ * Animasyon için animateDpAsState composable fonksiyonunu kullanıyoruz. Bu, animasyon bitene kadar değeri
+ * animasyon tarafından sürekli güncellenecek bir State nesnesi döndürür. Türü Dp olan bir "hedef değer" alır.
+ *
+ * Bu yapı içerisinde bir opsiyonel animationSpec parametresi barındırır. Bu animasyonun nasıl olacağını söyler.
+ *
+ * Ek bilgi olarak padding'e negatif değer verirsek uygulama crash olur.
+ *
+ * Buradaki animasyonu anında kesebiliriz. Butona hızlıca iki kere tıklarsak görebiliriz.
+ *
+ * Animasyonlar için -> https://developer.android.com/develop/ui/compose/animation/introduction
+ */
+
+@Composable
+private fun Greeting(name: String, modifier: Modifier = Modifier) {
+
+    var expanded by rememberSaveable { mutableStateOf(false) }
+
+    val extraPadding by animateDpAsState(
+        targetValue = if (expanded) 48.dp else 0.dp,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        ),
+        label = "Animation"
+    )
+    Surface(
+        color = MaterialTheme.colorScheme.primary,
+        modifier = modifier.padding(vertical = 4.dp, horizontal = 8.dp)
+    ) {
+        Row(modifier = Modifier.padding(24.dp)) {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(bottom = extraPadding.coerceAtLeast(0.dp))
+            ) {
+                Text(text = "Hello, ")
+                Text(text = name)
+            }
+            ElevatedButton(
+                onClick = { expanded = !expanded }
+            ) {
+                Text(if (expanded) "Show less" else "Show more")
+            }
+        }
+    }
+}
