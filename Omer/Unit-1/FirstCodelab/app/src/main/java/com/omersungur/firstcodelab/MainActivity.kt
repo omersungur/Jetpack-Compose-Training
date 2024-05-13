@@ -464,59 +464,71 @@ import com.omersungur.firstcodelab.ui.theme.FirstCodelabTheme
  * var. O da LazyColumn veya LazyRow ile sağlanıyor. Recycler view gibi bir yapıdır. Aşağı kaydırdıkça veriler yüklenir.
  */
 
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            FirstCodelabTheme {
-                Greetings(modifier = Modifier.fillMaxSize())
-            }
-        }
-    }
-}
+//class MainActivity : ComponentActivity() {
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setContent {
+//            FirstCodelabTheme {
+//                Greetings(modifier = Modifier.fillMaxSize())
+//            }
+//        }
+//    }
+//}
+//
+///**
+// * LazyColumn, Recycler view gibi childrenlarını yaymaz. Kaydırdıkça yeni composable'ları yayar (emit etmek).
+// * Composable'lar View'lardan daha hafif olduğu için daha performanslıdır diyebiliriz.
+// */
+//
+//@Composable
+//private fun Greetings(
+//    modifier: Modifier = Modifier,
+//    names: List<String> = List(1000) { "$it" }
+//) {
+//    LazyColumn(modifier = modifier.padding(vertical = 4.dp)) {
+//        items(items = names) { name ->
+//            Greeting(name = name)
+//        }
+//    }
+//}
+//
+//@Composable
+//fun Greeting(name: String, modifier: Modifier = Modifier) {
+//
+//    var expanded by remember { mutableStateOf(false) }
+//
+//    val extraPadding = if (expanded) 48.dp else 0.dp
+//
+//    Surface(
+//        color = MaterialTheme.colorScheme.primary,
+//        modifier = modifier.padding(vertical = 4.dp, horizontal = 8.dp)
+//    ) {
+//        Row(modifier = Modifier.padding(24.dp)) {
+//            Column(
+//                modifier = Modifier
+//                    .weight(1f)
+//                    .padding(bottom = extraPadding)
+//            ) {
+//                Text(text = "Hello, ")
+//                Text(text = name)
+//            }
+//            ElevatedButton(
+//                onClick = { expanded = !expanded }
+//            ) {
+//                Text(if (expanded) "Show less" else "Show more")
+//            }
+//        }
+//    }
+//}
 
 /**
- * LazyColumn, Recycler view gibi childrenlarını yaymaz. Kaydırdıkça yeni composable'ları yayar (emit etmek).
- * Composable'lar View'lardan daha hafif olduğu için daha performanslıdır diyebiliriz.
+ * Chapter - 10 -> Persisting state
  */
 
-@Composable
-private fun Greetings(
-    modifier: Modifier = Modifier,
-    names: List<String> = List(1000) { "$it" }
-) {
-    LazyColumn(modifier = modifier.padding(vertical = 4.dp)) {
-        items(items = names) { name ->
-            Greeting(name = name)
-        }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-
-    var expanded by remember { mutableStateOf(false) }
-
-    val extraPadding = if (expanded) 48.dp else 0.dp
-
-    Surface(
-        color = MaterialTheme.colorScheme.primary,
-        modifier = modifier.padding(vertical = 4.dp, horizontal = 8.dp)
-    ) {
-        Row(modifier = Modifier.padding(24.dp)) {
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(bottom = extraPadding)
-            ) {
-                Text(text = "Hello, ")
-                Text(text = name)
-            }
-            ElevatedButton(
-                onClick = { expanded = !expanded }
-            ) {
-                Text(if (expanded) "Show less" else "Show more")
-            }
-        }
-    }
-}
+/**
+ * 8.Chapter'da yaptığımız örneği düşünelim. Bir onBoarding ekranı vardı ve butona basınca başka bir composable geliyordu. Burada
+ * bir problemimiz var. Eğer uygulama configurasyonu değişirse (ekranı yan çevirmek vs.) bu durumda onBoarding ekranı tekrar
+ * gözükecektir. Çünkü state'i kaybettik. Bunun için rememberSaveable kullanabiliriz.
+ *
+ * var shouldShowOnboarding by rememberSaveable { mutableStateOf(true) }
+ */
