@@ -16,3 +16,7 @@ n
 >app/src/main/java/com/omersungur/firstcodelab/ui/theme/Type.kt,f\d\fd47a6dcd91a2ffd30cdee5dbde282741845eb79
 o
 ?app/src/main/java/com/omersungur/firstcodelab/ui/theme/Color.kt,8\6\86b1578baa76bfb41cc2af4dbf662c608339926e
+D
+app/build.gradle.kts,d\2\d2a4383452aad84a18429a5844d31330a012a9e6
+I
+gradle/libs.versions.toml,d\7\d7595319a0658be6f1ed500ad590d42e4b28bc4f
