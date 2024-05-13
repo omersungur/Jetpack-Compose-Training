@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import com.omersungur.firstcodelab.ui.theme.FirstCodelabTheme
 
 /**
- * Chapter - 3
+ * Chapter - 3 -> Getting started with Compose
  */
 
 //class MainActivity : ComponentActivity() {
@@ -72,7 +72,7 @@ import com.omersungur.firstcodelab.ui.theme.FirstCodelabTheme
 //}
 
 /**
- * Chapter - 4
+ * Chapter - 4 -> Tweaking the UI
  */
 
 //class MainActivity : ComponentActivity() {
@@ -122,7 +122,7 @@ import com.omersungur.firstcodelab.ui.theme.FirstCodelabTheme
 //}
 
 /**
- * Chapter - 5
+ * Chapter - 5 -> Reusing composables
  */
 
 //class MainActivity : ComponentActivity() {
@@ -170,148 +170,160 @@ import com.omersungur.firstcodelab.ui.theme.FirstCodelabTheme
 //}
 
 /**
- * Chapter - 6
+ * Chapter - 6 -> Creating columns and rows
  */
 
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            FirstCodelabTheme {
-                MyApp(modifier = Modifier.fillMaxWidth())
-            }
-        }
-    }
-}
-@Composable
-fun MyApp(
-    modifier: Modifier = Modifier,
-    names: List<String> = listOf("World", "Compose")
-) {
-    // Direkt olarak statüs bar ile bu yapının arasındaki padding.
-    Column(modifier.padding(vertical = 4.dp)) {
-        for (name in names) {
-            Greeting(name = name)
-        }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Surface(
-        color = MaterialTheme.colorScheme.primary,
-        modifier = modifier.padding(vertical = 4.dp, horizontal = 8.dp)
-    ) {
-        // Yazı ile içindeki container arasındaki padding
-        Column(modifier = modifier.padding(24.dp)) {
-            Text(text = "Hello ")
-            Text(text = name)
-        }
-    }
-}
-
-/**
- * Weight, öğenin mevcut tüm alanı doldurmasını sağlayarak onu esnek hale getirir ve esnek olmayan olarak
- * adlandırılan, ağırlığı olmayan diğer öğeleri etkili bir şekilde iter. Ayrıca fillMaxWidth değiştiricisini gereksiz hale getirir.
- *
- * Eğer composable içindeki datalar değişirse yeni datalarla beraber yeni UI çizilir. Buna recomposition denir. Sadece etkilenen UI
- * parçaları tekrardan çizilir. Etkilenmeyenler aynısı gibi kalır.
- *
- * Eğer bir değere göre UI yeniden çizdirilecekse bunu mutableStateOf ile tutmalıyız ki Compose takip etsin. Eğer normal olarak tanımlarsak
- * Greeting fonksiyonu her çağrıldığında içindeki state sıfırlanacak.
- *
- * State ve MutableState değer tutan ve değer değiştiğinde UI'ın güncellenmesi için tetikleme yapan interface yapılarıdır.
- * Composable fonksiyonlar herhangi bir zamanda recomposition'a uğrayabilir. remember keywordünü, composable fonksiyon yeniden
- * oluşturulurken o state'i kaybetmemek için kullanıyoruz.
- *
- * Aynı composable'ı ekranın farklı bölümlerinden çağırırsanız, her biri kendi durum sürümüne sahip farklı UI öğeleri oluşturacağınızı
- * unutmayın. Dahili durumu bir sınıftaki özel bir değişken olarak düşünebilirsiniz.
- */
+//class MainActivity : ComponentActivity() {
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setContent {
+//            FirstCodelabTheme {
+//                MyApp()
+//            }
+//        }
+//    }
+//}
+//
+//@Composable
+//fun MyApp(
+//    modifier: Modifier = Modifier,
+//    names: List<String> = listOf("World", "Compose", "Android")
+//) {
+//    // Buradaki padding app kenarları ile 16 dp boşluk bırakır
+//    Column(modifier = modifier.padding(16.dp)) {
+//        for (name in names) {
+//            Greeting(name = name)
+//        }
+//    }
+//}
+//
+///**
+// * Buradaki Text default olarak sadece kapladığı alan kadar genişler. Bu kaplanan alanı modifier ile ayarlayabilriz.
+// */
+////@Composable
+////fun Greeting(name: String, modifier: Modifier = Modifier) {
+////    Surface(color = MaterialTheme.colorScheme.primary,
+////    ) {
+////        // Yazı ile içindeki container arasındaki padding
+////        Column(modifier = modifier.padding(24.dp)) {
+////            Text(text = "Hello ")
+////            Text(text = name)
+////        }
+////    }
+////}
+//
+///**
+// * fillMaxWidth, ekranı yatay olarak tamamen kaplar.
+// */
+////@Composable
+////fun Greeting(name: String, modifier: Modifier = Modifier) {
+////    Surface(
+////        color = MaterialTheme.colorScheme.primary,
+////    ) {
+////        // Yazı ile içindeki container arasındaki padding
+////        Column(modifier = modifier.fillMaxWidth().padding(24.dp)) {
+////            Text(text = "Hello ")
+////            Text(text = name)
+////        }
+////    }
+////}
+//
+///**
+// * Buton Oluşturma:
+// *
+// * Weight, öğenin mevcut tüm alanı doldurmasını sağlayarak onu esnek hale getirir ve esnek olmayan olarak
+// * adlandırılan, ağırlığı olmayan diğer öğeleri etkili bir şekilde iter. Ayrıca fillMaxWidth değiştiricisini gereksiz hale getirir.
+// *
+// * Eğer composable içindeki datalar değişirse yeni datalarla beraber yeni UI çizilir. Buna recomposition denir. Sadece etkilenen UI
+// * parçaları tekrardan çizilir. Etkilenmeyenler aynısı gibi kalır.
+// *
+// * Eğer bir değere göre UI yeniden çizdirilecekse bunu mutableStateOf ile tutmalıyız ki Compose takip etsin. Eğer normal olarak tanımlarsak
+// * Greeting fonksiyonu her çağrıldığında içindeki state sıfırlanacak.
+// *
+// * State ve MutableState değer tutan ve değer değiştiğinde UI'ın güncellenmesi için tetikleme yapan interface yapılarıdır.
+// * Composable fonksiyonlar herhangi bir zamanda recomposition'a uğrayabilir. remember keywordünü, composable fonksiyon yeniden
+// * oluşturulurken o state'i kaybetmemek için kullanıyoruz.
+// *
+// * Aynı composable'ı ekranın farklı bölümlerinden çağırırsanız, her biri kendi durum sürümüne sahip farklı UI öğeleri oluşturacağınızı
+// * unutmayın. Dahili durumu bir sınıftaki özel bir değişken olarak düşünebilirsiniz.
+// */
+//
+///**
+// * Bu örnekte Column'a 1f weight değeri verildi. Bu yüzden dolayı o kısım 1f'lik bir alan kaplıyor fakat aynı hiyerarşi de başka
+// * bir component'in weight değeri olmadığı için 1f oranın tamamı oluyor ve sonra gelen elemanlar direkt sona kayıyor. ElevatedButton'ın
+// * weight değeri 5f olsaydı, row'u 6 parçaya ayıracaktı ve 5 birimini bu butona verecekti. Çünkü toplam 6 weight değerinin 5'ine sahip.
+// * Bu weight değerinin row ile ilgili olduğunu da unutmayalım. Enine göre büyüme sağlatıyor. fillMaxWidth kullansaydık o column
+// * ekranın en olarak tamamını kaplardı ve butona yer kalmazdı. Burada tek bir yerde weight kullandık ve diğer componentleri (burada
+// * butonu kastediyoruz) olabildiğince sıkıştırdı.
+// */
+//
 //@Composable
 //fun Greeting(name: String, modifier: Modifier = Modifier) {
-//    // var expanded = false // Bu şekilde kullanım yapmamalıyız. Compose'un bunu bir durum değişikliği olarak algılamasını sağlamaz, bu nedenle hiçbir şey olmaz.
-//    val expanded = remember { mutableStateOf(false) }
-//    val extraPadding = if (expanded.value) 48.dp else 0.dp
 //    Surface(
 //        color = MaterialTheme.colorScheme.primary,
 //        modifier = modifier.padding(vertical = 4.dp, horizontal = 8.dp)
 //    ) {
 //        Row(modifier = Modifier.padding(24.dp)) {
-//            Column(modifier = Modifier
-//                .weight(1f)
-//                .padding(bottom = extraPadding)) {
+//            Column(modifier = Modifier.weight(1f)) {
 //                Text(text = "Hello ")
 //                Text(text = name)
 //            }
-//            ElevatedButton(
+//            ElevatedButton(// modifier = Modifier.weight(5f),
 //                onClick = {
-//                    expanded.value = !expanded.value
+//
 //                }
 //            ) {
-//                if (expanded.value) Text("Show more") else Text(text = "OK")
+//                Text("Show more")
 //            }
+////            Text(text = "A")
+////            Text(text = "B")
+//            // Buradaki componentler olabildiğince sağ taraftan başlar. Column'ın weight değeri bunları iter.
 //        }
 //    }
 //}
 
 /**
- * State hoisting: Composable fonksiyonlarda stateler birden fazla yerde okunuyorsa veya değiştiriliyorsa bunlar,
- * olabildiğince hiyerarşideki en üst yapılara taşınmalı. Bu şekilde bir state'den birden çok tanımlamayız, daha az bugla karşılaşırız ve
- * composable, tekrar tekrar kullanılabilir hale gelir. Ek olarak test yazma işini de kolaylaştırır.
+ * Chapter - 7 -> State in Compose
  */
 
-//@Composable
-//fun MyApp(modifier: Modifier = Modifier) {
-//
-//    var shouldShowOnboarding by remember { mutableStateOf(true) }
-//
-//    Surface(modifier) {
-//        if (shouldShowOnboarding) {
-//            OnboardingScreen(onContinueClicked = { shouldShowOnboarding = false })
-//        } else {
-//            Greetings()
+//class MainActivity : ComponentActivity() {
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setContent {
+//            FirstCodelabTheme {
+//                MyApp()
+//            }
 //        }
 //    }
 //}
 //
 //@Composable
-//fun OnboardingScreen(
-//    onContinueClicked: () -> Unit,
-//    modifier: Modifier = Modifier
+//fun MyApp(
+//    modifier: Modifier = Modifier,
+//    names: List<String> = listOf("World", "Compose", "Android")
 //) {
-//    Column(
-//        modifier = modifier.fillMaxSize(),
-//        verticalArrangement = Arrangement.Center,
-//        horizontalAlignment = Alignment.CenterHorizontally
-//    ) {
-//        Text("Welcome to the Basics Codelab!")
-//        Button(
-//            modifier = Modifier.padding(vertical = 24.dp),
-//            onClick = onContinueClicked
-//        ) {
-//            Text("Continue")
+//    Column(modifier = modifier.padding(16.dp)) {
+//        for (name in names) {
+//            Greeting(name = name)
 //        }
 //    }
 //}
 //
-////@Composable
-////private fun Greetings(
-////    modifier: Modifier = Modifier,
-////    names: List<String> = listOf("World", "Compose")
-////) {
-////    Column(modifier = modifier.padding(vertical = 4.dp)) {
-////        for (name in names) {
-////            Greeting(name = name)
-////        }
-////    }
-////}
+///**
+// * Compose'un state'i takip etmesi için mutableStateOf kullanıyoruz.
+// *
+// * Recomposition olduğunda değerinin tutulması için ise remember kullanıyoruz. Değerin resetlenmemesi için...
+// *
+// * Buradaki Greeting fonksiyonunu farklı yerlerde kullanabiliriz. Kullandığımız farklı yerlerde kendi state'lerine
+// * sahip olurlar.
+// */
+//
 //@Composable
 //fun Greeting(name: String, modifier: Modifier = Modifier) {
-//
-//    var expanded by remember { mutableStateOf(false) }
-//
-//    val extraPadding = if (expanded) 48.dp else 0.dp
-//
+//    // var expanded = false // Bu şekilde kullanım yapmamalıyız.
+//    // Compose'un bunu bir durum değişikliği olarak algılamasını sağlamaz, bu nedenle hiçbir şey olmaz.
+//    val expanded = remember { mutableStateOf(false) }
+//    val extraPadding = if (expanded.value) 48.dp else 0.dp
 //    Surface(
 //        color = MaterialTheme.colorScheme.primary,
 //        modifier = modifier.padding(vertical = 4.dp, horizontal = 8.dp)
@@ -322,27 +334,123 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 //                    .weight(1f)
 //                    .padding(bottom = extraPadding)
 //            ) {
-//                Text(text = "Hello, ")
+//                Text(text = "Hello ")
 //                Text(text = name)
 //            }
 //            ElevatedButton(
-//                onClick = { expanded = !expanded }
+//                onClick = { expanded.value = !expanded.value }
 //            ) {
-//                Text(if (expanded) "Show less" else "Show more")
+//                Text(if (expanded.value) "Show less" else "Show more")
 //            }
 //        }
 //    }
 //}
-//
-//@Composable
-//private fun Greetings(
-//    modifier: Modifier = Modifier,
-//    names: List<String> = List(1000) { "$it" }
-//) {
-//    LazyColumn(modifier = modifier.padding(vertical = 4.dp)) {
-//        items(items = names) { name ->
-//            Greeting(name = name)
-//        }
-//    }
-//}
-//
+
+/**
+ * Chapter - 8 -> State Hoisting
+ */
+
+/**
+ * State hoisting: Composable fonksiyonlarda stateler birden fazla yerde okunuyorsa veya değiştiriliyorsa bunlar,
+ * olabildiğince hiyerarşideki en üst yapılara taşınmalı. Bu şekilde bir state'den birden çok tanımlamayız, daha az bugla karşılaşırız ve
+ * composable, tekrar tekrar kullanılabilir hale gelir. Ek olarak test yazma işini de kolaylaştırır.
+ */
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            FirstCodelabTheme {
+                MyApp(modifier = Modifier.fillMaxSize())
+            }
+        }
+    }
+}
+
+/**
+ * Compose'da bir şeyleri gizlemeyiz. Göstereceksek composable'a dahil ederiz, göstermeyeceksek dahil etmeyiz. Bunun için de
+ * Kotlin kodlarında logicler yazabiliriz. If else gibi.
+ *
+ * Burada shouldShowOnboarding true ise başka bir component eğer değilse başka bir component göstereceğiz. Buradaki state
+ * nereden gelmeli? İşte burada state hoisting yaparak bu state'i MyApp'e taşıyoruz. İlk başta true olduğu için
+ * OnBoardingScreen gözükecek fakat sonradan false olacağı için Greetings gözükecek.
+ */
+@Composable
+fun MyApp(modifier: Modifier = Modifier) {
+
+    var shouldShowOnboarding by remember { mutableStateOf(true) }
+
+    Surface(modifier) {
+        if (shouldShowOnboarding) {
+            OnboardingScreen(onContinueClicked = { shouldShowOnboarding = false })
+        } else {
+            Greetings()
+        }
+    }
+}
+
+/**
+ * Higher order fonksiyonlar ile bir state durumunu değiştirebiliriz. İşleri çok kolaylaştırır.
+ * Higher order func. <3
+ */
+@Composable
+fun OnboardingScreen(
+    onContinueClicked: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text("Welcome to the Basics Codelab!")
+
+        Button(
+            modifier = Modifier.padding(vertical = 24.dp),
+            onClick = onContinueClicked
+        ) {
+            Text("Continue")
+        }
+    }
+}
+
+@Composable
+private fun Greetings(
+    modifier: Modifier = Modifier,
+    names: List<String> = listOf("World", "Compose")
+) {
+    Column(modifier = modifier.padding(vertical = 4.dp)) {
+        for (name in names) {
+            Greeting(name = name)
+        }
+    }
+}
+
+@Composable
+fun Greeting(name: String, modifier: Modifier = Modifier) {
+
+    var expanded by remember { mutableStateOf(false) }
+
+    val extraPadding = if (expanded) 48.dp else 0.dp
+
+    Surface(
+        color = MaterialTheme.colorScheme.primary,
+        modifier = modifier.padding(vertical = 4.dp, horizontal = 8.dp)
+    ) {
+        Row(modifier = Modifier.padding(24.dp)) {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(bottom = extraPadding)
+            ) {
+                Text(text = "Hello, ")
+                Text(text = name)
+            }
+            ElevatedButton(
+                onClick = { expanded = !expanded }
+            ) {
+                Text(if (expanded) "Show less" else "Show more")
+            }
+        }
+    }
+}
