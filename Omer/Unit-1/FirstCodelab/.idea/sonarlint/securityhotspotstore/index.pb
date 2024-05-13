@@ -10,3 +10,9 @@ S
 Q.idea/sonarlint/securityhotspotstore/b/5/b5461fac9b91cbeaf934948d66d23fbb181732ca,7\0\70d81f8ebc6c74600264dca93eac655cd1496d67
 ]
 -.idea/sonarlint/securityhotspotstore/index.pb,8\8\88a9255124c95bdc913197c120a8d560edc59c8e
+o
+?app/src/main/java/com/omersungur/firstcodelab/ui/theme/Theme.kt,e\c\ec2d77325fc3b8602eaad8113f7a4f5e488a9fe4
+n
+>app/src/main/java/com/omersungur/firstcodelab/ui/theme/Type.kt,f\d\fd47a6dcd91a2ffd30cdee5dbde282741845eb79
+o
+?app/src/main/java/com/omersungur/firstcodelab/ui/theme/Color.kt,8\6\86b1578baa76bfb41cc2af4dbf662c608339926e

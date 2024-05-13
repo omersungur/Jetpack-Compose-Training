@@ -32,6 +32,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.omersungur.firstcodelab.ui.theme.FirstCodelabTheme
@@ -544,108 +545,155 @@ import com.omersungur.firstcodelab.ui.theme.FirstCodelabTheme
  * Chapter - 11 -> Animating your list
  */
 
+//class MainActivity : ComponentActivity() {
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setContent {
+//            FirstCodelabTheme {
+//                MyApp(modifier = Modifier.fillMaxSize())
+//            }
+//        }
+//    }
+//}
+//
+//@Composable
+//fun MyApp(modifier: Modifier = Modifier) {
+//
+//    var shouldShowOnboarding by rememberSaveable { mutableStateOf(true) }
+//
+//    Surface(modifier) {
+//        if (shouldShowOnboarding) {
+//            OnboardingScreen(onContinueClicked = { shouldShowOnboarding = false })
+//        } else {
+//            Greetings()
+//        }
+//    }
+//}
+//
+//@Composable
+//fun OnboardingScreen(
+//    onContinueClicked: () -> Unit,
+//    modifier: Modifier = Modifier
+//) {
+//    Column(
+//        modifier = modifier.fillMaxSize(),
+//        verticalArrangement = Arrangement.Center,
+//        horizontalAlignment = Alignment.CenterHorizontally
+//    ) {
+//        Text("Welcome to the Basics Codelab!")
+//        Button(
+//            modifier = Modifier.padding(vertical = 24.dp),
+//            onClick = onContinueClicked
+//        ) {
+//            Text("Continue")
+//        }
+//    }
+//
+//}
+//
+//@Composable
+//private fun Greetings(
+//    modifier: Modifier = Modifier,
+//    names: List<String> = List(1000) { "$it" }
+//) {
+//    LazyColumn(modifier = modifier.padding(vertical = 4.dp)) {
+//        items(items = names) { name ->
+//            Greeting(name = name)
+//        }
+//    }
+//}
+//
+///**
+// * Animasyon için animateDpAsState composable fonksiyonunu kullanıyoruz. Bu, animasyon bitene kadar değeri
+// * animasyon tarafından sürekli güncellenecek bir State nesnesi döndürür. Türü Dp olan bir "hedef değer" alır.
+// *
+// * Bu yapı içerisinde bir opsiyonel animationSpec parametresi barındırır. Bu animasyonun nasıl olacağını söyler.
+// *
+// * Ek bilgi olarak padding'e negatif değer verirsek uygulama crash olur.
+// *
+// * Buradaki animasyonu anında kesebiliriz. Butona hızlıca iki kere tıklarsak görebiliriz.
+// *
+// * Animasyonlar için -> https://developer.android.com/develop/ui/compose/animation/introduction
+// */
+//
+//@Composable
+//private fun Greeting(name: String, modifier: Modifier = Modifier) {
+//
+//    var expanded by rememberSaveable { mutableStateOf(false) }
+//
+//    val extraPadding by animateDpAsState(
+//        targetValue = if (expanded) 48.dp else 0.dp,
+//        animationSpec = spring(
+//            dampingRatio = Spring.DampingRatioMediumBouncy,
+//            stiffness = Spring.StiffnessLow
+//        ),
+//        label = "Animation"
+//    )
+//    Surface(
+//        color = MaterialTheme.colorScheme.primary,
+//        modifier = modifier.padding(vertical = 4.dp, horizontal = 8.dp)
+//    ) {
+//        Row(modifier = Modifier.padding(24.dp)) {
+//            Column(
+//                modifier = Modifier
+//                    .weight(1f)
+//                    .padding(bottom = extraPadding.coerceAtLeast(0.dp))
+//            ) {
+//                Text(text = "Hello, ")
+//                Text(text = name)
+//            }
+//            ElevatedButton(
+//                onClick = { expanded = !expanded }
+//            ) {
+//                Text(if (expanded) "Show less" else "Show more")
+//            }
+//        }
+//    }
+//}
+
+/**
+ * Chapter - 12 -> Styling and theming your app
+ */
+
+/**
+ * Theme.kt içine bak!
+ */
+
+/**
+ * FirstCodelabTheme'i kaldırıp composable'lar çalıştırırsak farkı görebiliriz. Burada Theme.kt içindeki
+ * şablona uyuyoruz.
+ *
+ * Material Theme'ın colorScheme, typography ve shapes özelliklerini kullanarak özelleştirme yapabiliriz.
+ *
+ * Bu özellikleri mümkün olduğu kadar Theme dosyası içinde ayarlamalıyız. Dark mode için ayrı ayrı ayarlama
+ * yapmak zorunda kalabiliriz. Fakat bazen daha spesifik işlemler yapmamız gerekebilir. Material Theme'in
+ * verdiği şeylere ekleme yapmak isteyebiliriz. Bunun için copy kullanabiliriz. Örneğin aşağıda headlineMedium
+ * kalınlık için yetersiz kaldı ve biz bunu daha da kalın hale getirdik.
+ */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FirstCodelabTheme {
-                MyApp(modifier = Modifier.fillMaxSize())
+//                Text(
+//                    text = "Hello Kotlin",
+//                    style = MaterialTheme.typography.headlineMedium,
+//                    color = MaterialTheme.colorScheme.tertiary,
+//                )
+
+//                Text(
+//                    text = "Hello Android",
+//                    style = MaterialTheme.typography.headlineMedium.copy(
+//                        fontWeight = FontWeight.ExtraBold
+//                    )
+//                )
+
+                // Dark theme'e göre farklı renkler alıyor artık.
+                ElevatedButton(onClick = { }) {
+                    Text(text = "Hello Kotlin")
+                }
             }
         }
     }
 }
 
-@Composable
-fun MyApp(modifier: Modifier = Modifier) {
-
-    var shouldShowOnboarding by rememberSaveable { mutableStateOf(true) }
-
-    Surface(modifier) {
-        if (shouldShowOnboarding) {
-            OnboardingScreen(onContinueClicked = { shouldShowOnboarding = false })
-        } else {
-            Greetings()
-        }
-    }
-}
-
-@Composable
-fun OnboardingScreen(
-    onContinueClicked: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text("Welcome to the Basics Codelab!")
-        Button(
-            modifier = Modifier.padding(vertical = 24.dp),
-            onClick = onContinueClicked
-        ) {
-            Text("Continue")
-        }
-    }
-
-}
-
-@Composable
-private fun Greetings(
-    modifier: Modifier = Modifier,
-    names: List<String> = List(1000) { "$it" }
-) {
-    LazyColumn(modifier = modifier.padding(vertical = 4.dp)) {
-        items(items = names) { name ->
-            Greeting(name = name)
-        }
-    }
-}
-
-/**
- * Animasyon için animateDpAsState composable fonksiyonunu kullanıyoruz. Bu, animasyon bitene kadar değeri
- * animasyon tarafından sürekli güncellenecek bir State nesnesi döndürür. Türü Dp olan bir "hedef değer" alır.
- *
- * Bu yapı içerisinde bir opsiyonel animationSpec parametresi barındırır. Bu animasyonun nasıl olacağını söyler.
- *
- * Ek bilgi olarak padding'e negatif değer verirsek uygulama crash olur.
- *
- * Buradaki animasyonu anında kesebiliriz. Butona hızlıca iki kere tıklarsak görebiliriz.
- *
- * Animasyonlar için -> https://developer.android.com/develop/ui/compose/animation/introduction
- */
-
-@Composable
-private fun Greeting(name: String, modifier: Modifier = Modifier) {
-
-    var expanded by rememberSaveable { mutableStateOf(false) }
-
-    val extraPadding by animateDpAsState(
-        targetValue = if (expanded) 48.dp else 0.dp,
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessLow
-        ),
-        label = "Animation"
-    )
-    Surface(
-        color = MaterialTheme.colorScheme.primary,
-        modifier = modifier.padding(vertical = 4.dp, horizontal = 8.dp)
-    ) {
-        Row(modifier = Modifier.padding(24.dp)) {
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(bottom = extraPadding.coerceAtLeast(0.dp))
-            ) {
-                Text(text = "Hello, ")
-                Text(text = name)
-            }
-            ElevatedButton(
-                onClick = { expanded = !expanded }
-            ) {
-                Text(if (expanded) "Show less" else "Show more")
-            }
-        }
-    }
-}
