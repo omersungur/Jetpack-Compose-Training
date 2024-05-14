@@ -1,8 +1,10 @@
 # Unit 1 Step 2-3 Video
 
-Composable fonksiyonlar, XML'den farklı olarak UI elementlerini objelerden ziyade fonksiyonlar aracılığıyla oluşturur. Bu fonksiyonlar Event State'i kontrol eder ve State değişikliklerine tepki verir. UI event handlerları, örneğin onClick gibi fonksiyonları emit eder. Daha sonra event handler, UI state'inin değişip değişmeyeceğini kontrol eder. Eğer UI state'i değişirse, o UI'a bağlı olan fonksiyonlar ve elemanlar tekrar execute edilir. Buna recomposition denir ve her bir state değişikliğinde farklı bir UI oluşturulabilir. Örneğin, State1 için UI 1 oluşturulurken, State2 için UI 2 oluşturulabilir.
+Composable fonksiyonlar, XML'den farklı olarak UI elementlerini objelerden ziyade fonksiyonlar aracılığıyla oluşturur. Bu fonksiyonlar Event State'i kontrol eder ve State değişikliklerine tepki verir. UI event handlerları, örneğin onClick gibi fonksiyonları emit eder. Daha sonra event handler, UI state'inin değişip değişmeyeceğini kontrol eder. Eğer UI state'i değişirse, o UI'a bağlı olan fonksiyonlar ve elemanlar tekrar execute edilir. Buna recomposition denir ve her bir state değişikliğinde farklı bir UI oluşturulabilir. Örneğin, State1 için UI 1 oluşturulurken, State2 için UI 2 oluşturulabilir.Recomposition’ın faydalarından biride sadece stateden etkilenen composable fonksiyonların değişmesidir. Tüm screen yenilenmez sadece state’in etkilediği composable’lar re-execute edilir.
 
 remember bloğu, Composable'lar recomposition gerçekleştiğinde bile değişkenin state'inin tutulmasını sağlar,state değişkeninin değerinin resetlenmemesi ve saklanması amacıyla kullanılmaktadır. Ancak, konfigürasyon değişikliklerinde remember işe yaramayacaktır. Bu durumda rememberSaveable kullanılabilir.
+
+rememberSaveable ise sadece bundle kısmında tutulabilecek tipleri kabul etmektedir. Bundle da saklanamayacak bir tip ise state tutma işlemi viewModel içerisinde yapılmalıdır.
 
 Composable fonksiyonlar paralel olarak çalışabilir ve herhangi bir sırayla çalışabilirler. Bu nedenle, özel olarak state'i observe etmeye veya manuel olarak UI'ı update etmeye gerek yoktur.
 
@@ -10,6 +12,7 @@ Ancak, Composables'in side effect içermemesi gerekir. Bu, Composables'in sadece
 
 
 ### Event -> State -> UI
+![f415ca9336d83142_856](https://github.com/omersungur/Jetpack-Compose-Training/assets/60012262/75cd3355-502f-4cd8-9fac-2891ab40bb4d)
 
 
 # Unit 1 Step 5 Video
@@ -83,4 +86,53 @@ Kotlin Compose'de kullanıcı arayüzlerinin temel yapısını oluşturmak için
 
 1. **Modifiers (Düzenleyiciler)**: Modifier'lar, bileşenlerin davranışını veya görünümünü değiştirmek için kullanılır. Örneğin, boyutları, kenar boşluklarını, arka plan renklerini veya kenarları belirlemek için kullanılabilir.
 2. **Modifier.align**: Bu düzenleyici, bir bileşenin hizalanmasını ayarlamak için kullanılır. Örneğin, Modifier.align(Alignment.Center) bir bileşeni ortalar.
+
+
+
+
+   ## State Hoisting
+
+İnternal state’e sahip composablelar genellikle daha az yeniden kullanılabilir ve test edilebilirdir. Bu tarz composablelara stateful denir. Hiçbir state tutmayan fonksiyonlara ise stateless denir ve yeniden kullanılabilirlik avantajları oldukça yüksektir. Bir composable’ı stateless hale getirmek için en iyi yöntem state hoistingdir.
+
+### **Stateful Composable**
+
+```kotlin
+@Composable
+fun StatefulCounter(modifier: Modifier = Modifier) {
+   var count by rememberSaveable { mutableStateOf(0) }
+   StatelessCounter(count, { count++ }, modifier)
+}
+```
+
+### **Stateless Composable**
+
+```kotlin
+@Composable
+fun StatelessCounter(count: Int, onIncrement: () -> Unit, modifier: Modifier = Modifier) {
+   Column(modifier = modifier.padding(16.dp)) {
+       if (count > 0) {
+           Text("You've had $count glasses.")
+       }
+       Button(onClick = onIncrement, Modifier.padding(top = 8.dp), enabled = count < 10) {
+           Text("Add one")
+       }
+   }
+}
+```
+
+Yukarıdaki gibi Stateless fonksiyon için high order bir fonksiyon tanımlanıp butonun onClick kısmına atanmıştır. Butona her tıklandığında onIncrement kısmı tetiklenecektir. Daha sonrasında State tutan composable içerisinde tanımlanıp onIncrement fonksiyonuna body verilmiştir.
+
+```kotlin
+@Composable
+fun StatefulCounter() {
+    var waterCount by remember { mutableStateOf(0) }
+
+    var juiceCount by remember { mutableStateOf(0) }
+
+    StatelessCounter(waterCount, { waterCount++ })
+    StatelessCounter(juiceCount, { juiceCount++ })
+}
+```
+
+Yukarıda birden fazla stateless composable ile esnek bir model oluşturulmuştur.
 
