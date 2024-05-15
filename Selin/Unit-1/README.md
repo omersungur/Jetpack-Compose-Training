@@ -33,22 +33,20 @@ Kotlin Compose'de kullanıcı arayüzlerinin temel yapısını oluşturmak için
 
 ### **Vertical Alignment  ve Horizontal Alignment**
 
- **Vertical Alignment (Dikey Hizalama)**: Column, içeriğini dikey olarak hizalamak için kullanılır. Bu, ekranın üstünden aşağıya doğru bir sıralama sağlar. Elemanlar, genellikle her birinin altında bir diğerinin yer aldığı bir düzen oluşturur.
+ **Vertical Alignment (Dikey Hizalama)**: Row, içeriğini dikey olarak hizalamak için kullanılır. Elemanlar dikey olarak hizalanır.
  
   → Seçenekler:
-
-- Start
-- CenterHorizontally
-- End
-
- **Horizontal Alignment (Yatay Hizalama)**: Row, içeriğini yatay olarak hizalamak için kullanılır. Bu, elemanların soldan sağa doğru bir sıralama sağlar. Öğeler yatay olarak hizalanır ve genellikle birbiri ardına ekranın üstünden aşağıya doğru yerleştirilir.
-
-  → Seçenekler:
-
 - Top
 - CenterVertically
 - Bottom
 
+
+ **Horizontal Alignment (Yatay Hizalama)**: Column, içeriğini yatay olarak hizalamak için kullanılır. Elemanlar yatay olarak hizalanır.
+
+  → Seçenekler:
+- Start
+- CenterHorizontally
+- End
 
 
  **Box için hem vertical hem horizontal alignment yapılabilir.**
@@ -136,3 +134,17 @@ fun StatefulCounter() {
 
 Yukarıda birden fazla stateless composable ile esnek bir model oluşturulmuştur.
 
+## Unit 1 Step 8 Video
+
+### Kısayollar:
+
+comp → Composable function oluşturur.
+
+WR → Row oluşturur
+
+WC → Column oluşturur
+
+prev → Preview annotationla birlikte composable function oluşturur.
+
+> Tek bir composable için birden fazla preview verilebilir, böylece farklı viewlar rahatlıkla gözlemlenir.
+>
